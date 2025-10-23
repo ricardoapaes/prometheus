@@ -1,0 +1,43 @@
+networks:
+  metrics:
+    name: metrics
+    driver: bridge
+
+services:
+
+  prometheus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - HOST_EXPORTERS=${HOST_EXPORTERS:-host.docker.internal}
+    volumes:
+      - prometheus_data:/prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "9090:9090"
+    networks:
+      - metrics
+    restart: always
+
+  grafana:
+    image: docker.io/grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - prometheus
+    networks:
+      - metrics
+    restart: always
+
+volumes:
+  grafana_data:
+  prometheus_data:
