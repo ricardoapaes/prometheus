@@ -9,8 +9,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - HOST_EXPORTERS=${HOST_EXPORTERS:-host.docker.internal}
+      args:
+        - HOST_EXPORTERS=${HOST_EXPORTERS:-host.docker.internal}
     volumes:
       - prometheus_data:/prometheus
     extra_hosts:
