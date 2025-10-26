@@ -22,8 +22,7 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     restart: always
-    ports:
-      - "8080:8080"
+    network_mode: host
     volumes:
       - /:/rootfs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
