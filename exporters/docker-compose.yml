@@ -34,5 +34,3 @@ services:
       - "--enable_metrics=cpu,memory,network"
       - "--store_container_labels=false"
       - "--docker_only=true"
-    networks:
-      - metrics
